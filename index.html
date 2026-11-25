@@ -1,0 +1,294 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sugar Palace | قصر السكر</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Cairo',sans-serif;background:#fffaf7;color:#49332e;transition:.3s}
+body.dark{background:#241b1a;color:#fff0e8}
+header{display:flex;justify-content:space-between;align-items:center;padding:20px 7%;background:#fff;position:sticky;top:0;z-index:100;box-shadow:0 3px 15px #0000000c}
+.dark header{background:#302321}
+.logo{font-size:25px;font-weight:800;color:#b77b68}
+nav a{text-decoration:none;color:inherit;margin:0 12px;font-size:14px}
+.header-buttons button{border:none;background:#f5e4dc;padding:10px 14px;border-radius:20px;cursor:pointer;margin-right:5px}
+.hero{min-height:490px;display:flex;align-items:center;justify-content:center;text-align:center;background:linear-gradient(#321d1b66,#321d1b66),url('https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=1800&q=90') center/cover;color:white;padding:50px 20px}
+.hero h1{font-size:clamp(35px,6vw,65px);margin-bottom:15px}
+.hero p{font-size:19px;margin-bottom:25px}
+.btn{display:inline-block;background:#c18b75;color:white;padding:13px 35px;border-radius:30px;text-decoration:none;border:none;cursor:pointer;font-family:inherit;transition:.3s}
+.btn:hover{background:#98624e;transform:translateY(-3px)}
+section{padding:65px 7%}
+.section-title{text-align:center;margin-bottom:35px}
+.section-title h2{font-size:32px;color:#b77b68}
+.section-title p{margin-top:8px;color:#987d72}
+.categories{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:35px}
+.categories button{padding:10px 22px;border:1px solid #d8b9aa;background:transparent;color:inherit;border-radius:25px;cursor:pointer;font-family:inherit}
+.categories button.active,.categories button:hover{background:#b77b68;color:white}
+.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:25px}
+.card{background:white;border-radius:18px;overflow:hidden;box-shadow:0 5px 20px #0000000c;transition:.3s}
+.dark .card{background:#382a27}
+.card:hover{transform:translateY(-7px)}
+.card img{width:100%;height:220px;object-fit:cover;display:block}
+.card-content{padding:18px}
+.card h3{margin-bottom:7px}
+.card p{font-size:13px;color:#987d72;margin-bottom:12px}
+.price{color:#b77b68;font-size:19px;font-weight:800;margin-bottom:12px}
+.card button{width:100%}
+.about{background:#f7eae4;text-align:center;border-radius:25px}
+.dark .about{background:#382a27}
+.about p{max-width:750px;margin:15px auto;line-height:2}
+.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;text-align:center}
+.feature{padding:25px;background:white;border-radius:15px}
+.dark .feature{background:#382a27}
+.feature span{font-size:35px}
+.cart{background:#f7eae4;border-radius:20px;padding:25px;max-width:700px;margin:auto}
+.dark .cart{background:#382a27}
+.cart-item{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #d8b9aa;gap:10px}
+.cart-item button{background:#b77b68;color:white;border:none;padding:5px 10px;border-radius:8px;cursor:pointer}
+.contact{text-align:center}
+.contact p{margin:12px}
+footer{background:#49332e;color:white;text-align:center;padding:30px;line-height:2}
+.whatsapp{position:fixed;bottom:25px;left:25px;background:#25d366;color:white;padding:13px 20px;border-radius:40px;text-decoration:none;z-index:200}
+@media(max-width:700px){
+header{flex-wrap:wrap;gap:12px}
+nav{width:100%;text-align:center}
+nav a{margin:5px;font-size:12px}
+.hero{min-height:400px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="logo">🍰 Sugar Palace</div>
+<nav>
+<a href="#home">الرئيسية</a>
+<a href="#products">منتجاتنا</a>
+<a href="#about">من نحن</a>
+<a href="#contact">تواصل معنا</a>
+<a href="#cart">🛒 السلة <span id="cart-count">0</span></a>
+</nav>
+<div class="header-buttons">
+<button onclick="toggleDark()">🌙</button>
+<button onclick="toggleLanguage()">EN</button>
+</div>
+</header>
+
+<div class="hero" id="home">
+<div>
+<h1>قصر السكر</h1>
+<p>كل قطعة حلوى.. حكاية من السعادة ❤️</p>
+<a href="#products" class="btn">اكتشف حلوياتنا</a>
+</div>
+</div>
+
+<section id="products">
+<div class="section-title">
+<h2>حلوياتنا الفاخرة</h2>
+<p>صُنعت بحب لتمنحك أجمل اللحظات</p>
+</div>
+
+<div class="categories">
+<button class="active" onclick="filterProducts('all',this)">الكل</button>
+<button onclick="filterProducts('cake',this)">الكيك</button>
+<button onclick="filterProducts('donut',this)">الدونات</button>
+<button onclick="filterProducts('macaron',this)">الماكرون</button>
+</div>
+
+<div class="products" id="products-list"></div>
+</section>
+
+<section id="about">
+<div class="about" style="padding:45px 20px">
+<div class="section-title"><h2>حكايتنا</h2></div>
+<p>في Sugar Palace نؤمن أن الحلويات ليست مجرد مذاق، بل لحظات جميلة تستحق أن تُصنع بعناية. نقدم لكم تشكيلة مميزة من الحلويات الفاخرة بمكونات مختارة ولمسات إبداعية تجعل كل مناسبة أكثر جمالاً.</p>
+</div>
+</section>
+
+<section>
+<div class="section-title">
+<h2>لماذا قصر السكر؟</h2>
+<p>تجربة مختلفة في كل تفصيلة</p>
+</div>
+<div class="features">
+<div class="feature"><span>🍓</span><h3>مكونات طازجة</h3><p>جودة نهتم بها في كل منتج.</p></div>
+<div class="feature"><span>🎁</span><h3>تغليف فاخر</h3><p>أناقة تناسب أجمل هداياكم.</p></div>
+<div class="feature"><span>🚚</span><h3>توصيل سريع</h3><p>حلوياتك تصلك بكل عناية.</p></div>
+<div class="feature"><span>❤️</span><h3>صناعة بحب</h3><p>كل قطعة تحمل لمسة خاصة.</p></div>
+</div>
+</section>
+
+<section id="cart">
+<div class="section-title"><h2>🛒 سلة مشترياتك</h2></div>
+<div class="cart">
+<div id="cart-items">السلة فارغة حالياً</div>
+<h3 style="margin:20px 0">الإجمالي: <span id="total">0</span> ريال</h3>
+<button class="btn" onclick="checkout()">إتمام الطلب عبر واتساب</button>
+</div>
+</section>
+
+<section id="contact" class="contact">
+<div class="section-title">
+<h2>تواصل معنا</h2>
+<p>نسعد بخدمتكم دائماً ❤️</p>
+</div>
+<p>📍 المملكة العربية السعودية</p>
+<p>📱 للتواصل والطلبات عبر واتساب</p>
+<a class="btn" href="https://wa.me/966500000000" target="_blank">تواصل عبر واتساب</a>
+</section>
+
+<footer>
+<h2>🍰 Sugar Palace</h2>
+<p>قصر السكر.. لأن اللحظات الحلوة تستحق الأفضل.</p>
+<p>جميع الحقوق محفوظة © 2026</p>
+</footer>
+
+<a class="whatsapp" href="https://wa.me/966500000000" target="_blank">WhatsApp 💬</a>
+
+<script>
+
+const products = [
+{
+name:"كيكة الفراولة الفاخرة",
+category:"cake",
+price:120,
+image:"https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=600",
+description:"كيكة ناعمة بطبقات الفراولة والكريمة."
+},
+{
+name:"كيكة الشوكولاتة",
+category:"cake",
+price:150,
+image:"https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600",
+description:"شوكولاتة غنية بمذاق لا يُنسى."
+},
+{
+name:"دونات الفستق",
+category:"donut",
+price:35,
+image:"https://images.unsplash.com/photo-1551024506-0bccd828d307?w=600",
+description:"دونات طازجة بلمسة الفستق."
+},
+{
+name:"ماكرون فرنسي",
+category:"macaron",
+price:65,
+image:"https://images.unsplash.com/photo-1569864358642-9d1684040f43?w=600",
+description:"ألوان جميلة ونكهات متنوعة."
+},
+{
+name:"تشيز كيك التوت",
+category:"cake",
+price:95,
+image:"https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=600",
+description:"تشيز كيك كريمي مع التوت."
+},
+{
+name:"دونات الشوكولاتة",
+category:"donut",
+price:30,
+image:"https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&w=900&q=90",
+description:"دونات شوكولاتة بطبقة غنية من الشوكولاتة."
+},
+{
+name:"ماكرون الفانيليا",
+category:"macaron",
+price:55,
+image:"https://images.unsplash.com/photo-1558326567-98ae2405596b?w=600",
+description:"نكهة الفانيليا الفرنسية."
+}
+];
+
+let cart=[];
+
+function displayProducts(list){
+document.getElementById("products-list").innerHTML=list.map(p=>`
+<div class="card">
+<img src="${p.image}" alt="${p.name}" onerror="this.src='https://placehold.co/600x400/f5e4dc/49332e?text=Sugar+Palace'">
+<div class="card-content">
+<h3>${p.name}</h3>
+<p>${p.description}</p>
+<div class="price">${p.price} ريال</div>
+<button class="btn" onclick="addToCart('${p.name}')">أضف إلى السلة 🛒</button>
+</div>
+</div>
+`).join("");
+}
+
+function filterProducts(category,button){
+document.querySelectorAll(".categories button").forEach(b=>b.classList.remove("active"));
+button.classList.add("active");
+displayProducts(category==="all"?products:products.filter(p=>p.category===category));
+}
+
+function addToCart(name){
+const product=products.find(p=>p.name===name);
+const existing=cart.find(p=>p.name===name);
+if(existing)existing.quantity++;
+else cart.push({...product,quantity:1});
+updateCart();
+}
+
+function updateCart(){
+const container=document.getElementById("cart-items");
+const total=cart.reduce((sum,p)=>sum+p.price*p.quantity,0);
+document.getElementById("total").textContent=total;
+document.getElementById("cart-count").textContent=cart.reduce((sum,p)=>sum+p.quantity,0);
+if(cart.length===0){
+container.textContent="السلة فارغة حالياً";
+return;
+}
+container.innerHTML=cart.map((p,i)=>`
+<div class="cart-item">
+<span>${p.name} × ${p.quantity}</span>
+<span>${p.price*p.quantity} ريال</span>
+<button onclick="removeItem(${i})">حذف</button>
+</div>
+`).join("");
+}
+
+function removeItem(index){
+cart.splice(index,1);
+updateCart();
+}
+
+function checkout(){
+if(cart.length===0){
+alert("السلة فارغة! أضيفي منتجات أولاً.");
+return;
+}
+let message="مرحباً، أريد طلب المنتجات التالية:\n";
+cart.forEach(p=>message+=`- ${p.name} × ${p.quantity} = ${p.price*p.quantity} ريال\n`);
+const total=cart.reduce((sum,p)=>sum+p.price*p.quantity,0);
+message+=`\nالإجمالي: ${total} ريال`;
+window.open("https://wa.me/966500000000?text="+encodeURIComponent(message),"_blank");
+}
+
+function toggleDark(){
+document.body.classList.toggle("dark");
+}
+
+let english=false;
+
+function toggleLanguage(){
+english=!english;
+document.documentElement.lang=english?"en":"ar";
+document.documentElement.dir=english?"ltr":"rtl";
+document.querySelector(".hero h1").textContent=english?"Sugar Palace":"قصر السكر";
+document.querySelector(".hero p").textContent=english?"Every dessert tells a story of happiness.":"كل قطعة حلوى.. حكاية من السعادة ❤️";
+document.querySelector(".hero .btn").textContent=english?"Explore Our Desserts":"اكتشف حلوياتنا";
+document.querySelector("#products .section-title h2").textContent=english?"Our Luxury Desserts":"حلوياتنا الفاخرة";
+document.querySelector(".header-buttons button:last-child").textContent=english?"AR":"EN";
+}
+
+displayProducts(products);
+updateCart();
+
+</script>
+</body>
+</html>
